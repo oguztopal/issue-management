@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.annotation.XmlAnyElement;
+
 
 @RestController
 @RequestMapping("/project")
@@ -22,7 +22,6 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    @XmlAnyElement
     public ResponseEntity<ProjectDto> getById(@PathVariable("id") Long id){
         ProjectDto projectDto = projectService.getById(id);
         return ResponseEntity.ok(projectDto);
