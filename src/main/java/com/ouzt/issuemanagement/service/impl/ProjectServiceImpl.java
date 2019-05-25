@@ -1,8 +1,10 @@
 package com.ouzt.issuemanagement.service.impl;
 
+import com.ouzt.issuemanagement.dto.ProjectDto;
 import com.ouzt.issuemanagement.entity.Project;
 import com.ouzt.issuemanagement.repository.ProjectRepository;
 import com.ouzt.issuemanagement.service.ProjectService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,11 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    private final ModelMapper modelMapper;
+
+    public ProjectServiceImpl(ProjectRepository projectRepository, ModelMapper modelMapper) {
         this.projectRepository = projectRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -27,11 +32,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project getById(Long id) {
+    public ProjectDto getById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("İd is null !!");
         }
-        return projectRepository.getOne(id);
+        Project p = projectRepository.getOne(id);
+        modelMapper.map(p,ProjectDto.class);
+        return modelMapper.map(p,ProjectDto.class);
     }
 
     @Override
