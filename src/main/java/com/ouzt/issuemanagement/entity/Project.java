@@ -16,9 +16,9 @@ public class Project extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name="project_code" ,unique = true)
+    @Column(name="project_code" ,unique = true ,nullable = false)
     private String projectCode;
-    @Column(name="project_name")
+    @Column(name="project_name", nullable = false)
     private String projectName;
     @JoinColumn(name="manager_user_id")
     @ManyToOne(optional = true , fetch = FetchType.LAZY)
