@@ -7,6 +7,7 @@ import com.ouzt.issuemanagement.service.ProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +41,9 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("İd is null !!");
         }
         Project p = projectRepository.getOne(id);
+        if (p==null){
+            throw new IllegalArgumentException("Böyle bir Project yok. !!");
+        }
         return modelMapper.map(p,ProjectDto.class);
     }
 
@@ -49,10 +53,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Boolean delete(Project project) {
+    public Boolean delete(ProjectDto project) {
         Boolean check = true;
         try{
-            projectRepository.delete(project);
+            projectRepository.delete(modelMapper.map(project,Project.class));
         }catch (Exception ex){
             ex.printStackTrace();
             check=false;
@@ -75,5 +79,20 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("ProjecCode is null !!");
         }
         return projectRepository.getByProjectCodeContains(projectCode);
+    }
+
+    public ProjectDto update(Long id,ProjectDto projectDto) {
+        Project p= projectRepository.getOne(id);
+        if (p == null){
+            throw new IllegalArgumentException("Böyle Bir kayıt bulunmamakta.");
+        }
+        Project projectCheck = projectRepository.getByProjectCode(projectDto.getProjectCode());
+        if (projectCheck!=null && projectCheck.getId() != p.getId()){
+            throw new IllegalArgumentException("Project Code already exist.!!");
+        }
+        p.setProjectCode(projectDto.getProjectCode());
+        p.setProjectName(projectDto.getProjectName());
+        projectRepository.save(p);
+        return modelMapper.map(p,ProjectDto.class);
     }
 }
