@@ -1,5 +1,6 @@
 package com.ouzt.issuemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,7 +21,8 @@ public class Issue extends BaseEntity{
     @Column(name="details",length = 4000)
     private String details;
     @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="dd-MM-yyyy'T'HH:mm")
     private Date date;
     @Column(name = "issue_status")
     @Enumerated(EnumType.STRING)

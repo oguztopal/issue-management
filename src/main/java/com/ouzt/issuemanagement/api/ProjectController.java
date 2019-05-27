@@ -1,9 +1,8 @@
 package com.ouzt.issuemanagement.api;
 
 import com.ouzt.issuemanagement.dto.ProjectDto;
-import com.ouzt.issuemanagement.entity.Project;
 import com.ouzt.issuemanagement.service.impl.ProjectServiceImpl;
-import org.springframework.http.HttpMethod;
+import com.ouzt.issuemanagement.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +10,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping(ApiPaths.projectCtrl.CTRL)
 public class ProjectController {
 
     private final ProjectServiceImpl projectService;
